@@ -1,4 +1,6 @@
 //
+// See the included LICENSE file for licensing information.
+//
 // A simple program to strip the ID3 tags identifying an MP3 file
 // as a podcast in iTunes.
 //

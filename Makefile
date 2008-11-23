@@ -1,3 +1,6 @@
+#
+# See the included LICENSE file for licensing information.
+#
 # The path to the id3lib (http://id3lib.sourceforge.net).  This library
 # is used for ID3 tag parsing and is required.
 ID3LIB_PATH = $(HOME)/local
