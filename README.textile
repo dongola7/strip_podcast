@@ -1,0 +1,26 @@
+h1. strip_podcast
+
+h3. Description
+
+A small utility to strip the ID3 tags used by iTunes to identify a file
+as a podcast track.  I use this utility to strip off these flags so that
+podcasts may be treated as normal songs in iTunes.
+
+h3. Installation
+
+This software requires id3lib.  I recommend installing id3lib through
+Darwin Ports (http://darwinports.com) via the command @sudo port install
+id3lib@.
+
+Once installed, modify the @ID3LIB_PATH@ in the Makefile to point to
+the location where id3lib is installed (for Darwin Ports, the default
+value should be acceptable).
+
+Then simply run @make@ to build the software.  You'll get a single
+executable file named strip_podcast.
+
+h3. Usage
+
+Just run @strip_podcast <filename>@ to remove any of the ID3 tags on
+the file.  The file is modified in place and may then be imported into
+iTunes as a standard track.
