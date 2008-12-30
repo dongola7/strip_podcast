@@ -9,8 +9,8 @@ podcasts may be treated as normal songs in iTunes.
 h3. Installation
 
 This software requires id3lib.  I recommend installing id3lib through
-Darwin Ports (http://darwinports.com) via the command @sudo port install
-id3lib@.
+Darwin Ports (http://darwinports.com) via the command 
+@sudo port install id3lib@.
 
 Once installed, modify the @ID3LIB_PATH@ in the Makefile to point to
 the location where id3lib is installed (for Darwin Ports, the default
