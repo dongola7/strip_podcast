@@ -3,11 +3,11 @@
 #
 # The path to the id3lib (http://id3lib.sourceforge.net).  This library
 # is used for ID3 tag parsing and is required.
-ID3LIB_PATH = /opt/local
+TAGLIB_PATH = /opt/local
 
 # Don't change anything below this line.
-CXXFLAGS = -I $(ID3LIB_PATH)/include
-LDFLAGS = -L$(ID3LIB_PATH)/lib -lid3
+CXXFLAGS = -I $(TAGLIB_PATH)/include
+LDFLAGS = -L$(TAGLIB_PATH)/lib -ltag
 
 strip_podcast: strip_podcast.cpp
 

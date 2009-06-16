@@ -8,7 +8,8 @@
 //
 // Author: Blair Kitchen <blair@the-blair.com>
 //
-#include <id3/tag.h>
+#include <taglib/mpegfile.h>
+#include <taglib/id3v2tag.h>
 #include <iostream>
 #include <cstdlib>
 
@@ -22,22 +23,24 @@ int main(int argc, char **argv)
         exit(-1);
     }
 
-    ID3_Tag myTag;
+    TagLib::MPEG::File mpegFile(argv[1]);
 
-    myTag.Link(argv[1]);
+    if(mpegFile.ID3v2Tag() == NULL)
+        return 0;
 
-    ID3_Tag::Iterator *pFrameIterator = myTag.CreateIterator();
-    ID3_Frame *pFrame;
-    while(pFrame = pFrameIterator->GetNext())
+    TagLib::ID3v2::Tag *pTag = mpegFile.ID3v2Tag();
+    for(TagLib::List<TagLib::ID3v2::Frame*>::ConstIterator iter = pTag->frameList().begin();
+        iter != pTag->frameList().end();
+        iter++)
     {
-        if(strcmp(pFrame->GetTextID(), "PCST") != 0)
+        TagLib::ID3v2::Frame *pFrame = *iter;
+        if(pFrame->frameID() != "PCST")
             continue;
-        
-        myTag.RemoveFrame(pFrame);
-        delete pFrame;
+
+        pTag->removeFrame(pFrame);
+        break;
     }
-    delete pFrameIterator;
-    myTag.Update();
+    mpegFile.save();
 
     return 0;
 }
