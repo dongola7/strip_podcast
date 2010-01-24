@@ -11,6 +11,18 @@ package "strip_podcast"
 version "1.0"
 purpose "Removes the iTunes podcast flag from MP3 files."
 
-args "--unamed-opts"
+args "--unamed-opts --default-optional"
 
 option "verbose" - "Enable verbose debug output." flag off
+
+option "fix-title" f "Attempts to guess the title and author fields by parsing the title" flag on
+	details = "Some podcasts place both the song title and artist in the Title field of the ID3 tag,\
+reserving the Artist field for their podcast name.  When enabled, this flag attempts to \
+parse the Title field by splitting based on a string as specified in title-split-string. \
+If splitting on this string results in only two strings, then the first string will be used \
+as the Artist field while the second will become the Title field."
+				
+option "title-split-string" - "String used for splitting the title as described in fix-title."
+	string
+	dependon = "fix-title"
+	default = ": "
