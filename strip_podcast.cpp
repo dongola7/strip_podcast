@@ -43,6 +43,38 @@ void StripPodcastFlag(TagLib::MPEG::File &mpegFile, bool verbose)
       mpegFile.save();
 }
 
+void FixTitle(TagLib::MPEG::File &mpegFile, const char *const splitString, bool verbose)
+{
+	if(verbose)
+		cerr << "Attempting to fix title." << endl;
+		
+	TagLib::String title = mpegFile.tag()->title();
+	
+	int offset = title.find(splitString);
+	if(offset == -1)
+	{
+		if(verbose)
+			cerr << "Unable to find '" << splitString << "' in title '" << title << "'" << endl;
+		return;
+	}
+	
+	if(title.find(splitString, offset + 1) != -1)
+	{
+		if(verbose)
+			cerr << "Found multiple '" << splitString << "' in title '" << title << "'" << endl;
+		return;
+	}
+	
+	TagLib::String newArtist = title.substr(0, offset);
+	TagLib::String newTitle = title.substr(offset + strlen(splitString));
+	
+	mpegFile.tag()->setArtist(newArtist);
+	mpegFile.tag()->setTitle(newTitle);
+	
+	if(verbose)
+		cerr << "New author '" << newArtist << "' and title '" << newTitle << "'" << endl;
+}
+
 int main(int argc, char **argv)
 {
     gengetopt_args_info args_info;
@@ -60,7 +92,10 @@ int main(int argc, char **argv)
 		if(verbose)
 			cerr << "Processing file " << args_info.inputs[i] << endl;
 			
-		TagLib::MPEG::File mpegFile(args_info.inputs[i]);		
+		TagLib::MPEG::File mpegFile(args_info.inputs[i]);
+		if(args_info.fix_title_given != 0)
+			FixTitle(mpegFile, args_info.title_split_string_arg, verbose);
+		
 		StripPodcastFlag(mpegFile, verbose);
 	}
 
