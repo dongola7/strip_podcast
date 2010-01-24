@@ -12,17 +12,13 @@
 #include <taglib/id3v2tag.h>
 #include <iostream>
 #include <cstdlib>
+#include <string>
 #include "cmdline.h"
 
 using namespace std;
 
-void StripPodcastFlag(const char *const fileName, bool verbose)
+void StripPodcastFlag(TagLib::MPEG::File &mpegFile, bool verbose)
 {
-	if(verbose)
-		cerr << "Processing file " << fileName << endl;
-		
-    TagLib::MPEG::File mpegFile(fileName);
-
     if(mpegFile.ID3v2Tag() == NULL)
 	{
 		if(verbose)
@@ -53,12 +49,20 @@ int main(int argc, char **argv)
 
     if(cmdline_parser(argc, argv, &args_info) != 0)
 		exit(1);
+	
+	bool verbose = args_info.verbose_given != 0;
 
-	if(args_info.inputs_num == 0 && args_info.verbose_given != 0)
+	if(args_info.inputs_num == 0 && verbose)
 		cerr << "Nothing to do." << endl;
 		
     for(int i = 0; i < args_info.inputs_num; i++)
-		StripPodcastFlag(args_info.inputs[i], args_info.verbose_given != 0);
+	{
+		if(verbose)
+			cerr << "Processing file " << args_info.inputs[i] << endl;
+			
+		TagLib::MPEG::File mpegFile(args_info.inputs[i]);		
+		StripPodcastFlag(mpegFile, verbose);
+	}
 
     return 0;
 }
