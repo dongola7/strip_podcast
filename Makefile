@@ -9,7 +9,13 @@ TAGLIB_PATH = /opt/local
 CXXFLAGS = -I $(TAGLIB_PATH)/include
 LDFLAGS = -L$(TAGLIB_PATH)/lib -ltag
 
-strip_podcast: strip_podcast.cpp
+strip_podcast: strip_podcast.cpp cmdline.c
+
+cmdline.h cmdline.c: cmdline.ggo
+	gengetopt < cmdline.ggo
 
 clean:
 	rm -f strip_podcast
+
+full-clean: clean
+	rm -f cmdline.[hc]

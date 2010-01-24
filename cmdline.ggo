@@ -1,0 +1,16 @@
+#
+# See the included LICENSE file for licensing information.
+#
+# Command line arguments for a simple program to strip the ID3 
+# tags identifying an MP3 file as a podcast in iTunes.
+#
+# Author: Blair Kitchen <blair@the-blair.com>
+#
+
+package "strip_podcast"
+version "1.0"
+purpose "Removes the iTunes podcast flag from MP3 files."
+
+args "--unamed-opts"
+
+option "verbose" - "Enable verbose debug output." flag off

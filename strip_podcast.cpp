@@ -12,35 +12,53 @@
 #include <taglib/id3v2tag.h>
 #include <iostream>
 #include <cstdlib>
+#include "cmdline.h"
 
 using namespace std;
 
-int main(int argc, char **argv)
+void StripPodcastFlag(const char *const fileName, bool verbose)
 {
-    if(argc != 2)
-    {
-        cerr << "Usage: " << argv[0] << " <mp3-file>" << endl;
-        exit(-1);
-    }
-
-    TagLib::MPEG::File mpegFile(argv[1]);
+	if(verbose)
+		cerr << "Processing file " << fileName << endl;
+		
+    TagLib::MPEG::File mpegFile(fileName);
 
     if(mpegFile.ID3v2Tag() == NULL)
-        return 0;
+	{
+		if(verbose)
+			cerr << "Could not find a valid ID3v2 header." << endl;
+		return;
+	}
 
     TagLib::ID3v2::Tag *pTag = mpegFile.ID3v2Tag();
     for(TagLib::List<TagLib::ID3v2::Frame*>::ConstIterator iter = pTag->frameList().begin();
         iter != pTag->frameList().end();
         iter++)
-    {
-        TagLib::ID3v2::Frame *pFrame = *iter;
+	{
+		TagLib::ID3v2::Frame *pFrame = *iter;
         if(pFrame->frameID() != "PCST")
             continue;
 
         pTag->removeFrame(pFrame);
+		if(verbose)
+			cerr << "Removed podcast frame in ID3v2 header." << endl;
         break;
-    }
-    mpegFile.save();
+      }
+      mpegFile.save();
+}
+
+int main(int argc, char **argv)
+{
+    gengetopt_args_info args_info;
+
+    if(cmdline_parser(argc, argv, &args_info) != 0)
+		exit(1);
+
+	if(args_info.inputs_num == 0 && args_info.verbose_given != 0)
+		cerr << "Nothing to do." << endl;
+		
+    for(int i = 0; i < args_info.inputs_num; i++)
+		StripPodcastFlag(args_info.inputs[i], args_info.verbose_given != 0);
 
     return 0;
 }
