@@ -43,7 +43,7 @@ void StripPodcastFlag(TagLib::MPEG::File &mpegFile, bool verbose)
       mpegFile.save();
 }
 
-void FixTitle(TagLib::MPEG::File &mpegFile, const char *const splitString, bool verbose)
+void FixTitle(TagLib::MPEG::File &mpegFile, const string &splitString, bool verbose)
 {
 	if(verbose)
 		cerr << "Attempting to fix title." << endl;
@@ -66,7 +66,7 @@ void FixTitle(TagLib::MPEG::File &mpegFile, const char *const splitString, bool 
 	}
 	
 	TagLib::String newArtist = title.substr(0, offset);
-	TagLib::String newTitle = title.substr(offset + strlen(splitString));
+	TagLib::String newTitle = title.substr(offset + splitString.length());
 	
 	mpegFile.tag()->setArtist(newArtist);
 	mpegFile.tag()->setTitle(newTitle);
@@ -75,18 +75,49 @@ void FixTitle(TagLib::MPEG::File &mpegFile, const char *const splitString, bool 
 		cerr << "New author '" << newArtist << "' and title '" << newTitle << "'" << endl;
 }
 
+bool FileExists(const string &fileName)
+{
+	if(FILE *file = fopen(fileName.c_str(), "r"))
+	{
+		fclose(file);
+		return true;
+	}
+	
+	return false;
+}
+
+static const int FILE_NAME_LEN = 255;
+
 int main(int argc, char **argv)
 {
     gengetopt_args_info args_info;
 
-    if(cmdline_parser(argc, argv, &args_info) != 0)
+	cmdline_parser_params parser_params;
+	cmdline_parser_params_init(&parser_params);
+	parser_params.check_required = 0;
+	
+	string configFileName(getenv("HOME"));
+	configFileName += "/.strip_podcast";
+	
+	if(FileExists(configFileName))
+	{
+		if(cmdline_parser_config_file(const_cast<char*>(configFileName.c_str()), &args_info, &parser_params) != 0)
+			exit(1);
+	}
+	
+	parser_params.check_required = 1;
+	parser_params.override = 1;
+	parser_params.initialize = 0;
+
+    if(cmdline_parser_ext(argc, argv, &args_info, &parser_params) != 0)
 		exit(1);
 	
 	bool verbose = args_info.verbose_given != 0;
 
 	if(args_info.inputs_num == 0 && verbose)
 		cerr << "Nothing to do." << endl;
-		
+	
+	cout << "args_info.inputs_num = " << args_info.inputs_num << endl;
     for(int i = 0; i < args_info.inputs_num; i++)
 	{
 		if(verbose)

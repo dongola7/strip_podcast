@@ -11,7 +11,7 @@ package "strip_podcast"
 version "1.0"
 purpose "Removes the iTunes podcast flag from MP3 files."
 
-args "--unamed-opts --default-optional"
+args "--unamed-opts --default-optional --conf-parser"
 
 option "verbose" - "Enable verbose debug output." flag off
 
