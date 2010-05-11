@@ -1,4 +1,7 @@
 .DS_Store
 strip_podcast
-cmdline.[hc]
+cmdline.h
+cmdline.cpp
+*.o
+*.d
 *.swp
