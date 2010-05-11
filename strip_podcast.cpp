@@ -118,7 +118,7 @@ int main(int argc, char **argv)
 		cerr << "Nothing to do." << endl;
 	
 	cout << "args_info.inputs_num = " << args_info.inputs_num << endl;
-    for(int i = 0; i < args_info.inputs_num; i++)
+    for(unsigned int i = 0; i < args_info.inputs_num; i++)
 	{
 		if(verbose)
 			cerr << "Processing file " << args_info.inputs[i] << endl;
