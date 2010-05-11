@@ -8,8 +8,8 @@
 //
 // Author: Blair Kitchen <blair@the-blair.com>
 //
-#include <taglib/mpegfile.h>
-#include <taglib/id3v2tag.h>
+#include <mpegfile.h>
+#include <id3v2tag.h>
 #include <iostream>
 #include <cstdlib>
 #include <string>

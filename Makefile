@@ -1,14 +1,11 @@
 #
 # See the included LICENSE file for licensing information.
 #
-# The path to the id3lib (http://id3lib.sourceforge.net).  This library
-# is used for ID3 tag parsing and is required.
-TAGLIB_PATH = /opt/local
 
 # Don't change anything below this line.
 CXX = g++
-CXXFLAGS = -I $(TAGLIB_PATH)/include
-LDFLAGS = -L$(TAGLIB_PATH)/lib -ltag
+CXXFLAGS = $(shell taglib-config --cflags)
+LDFLAGS = $(shell taglib-config --libs)
 OBJS := cmdline.o strip_podcast.o
 PROGRAM_NAME = strip_podcast
 
