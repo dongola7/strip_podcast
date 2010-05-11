@@ -4,7 +4,7 @@
 
 # Don't change anything below this line.
 CXX = g++
-CXXFLAGS = $(shell taglib-config --cflags)
+CXXFLAGS = $(shell taglib-config --cflags) -Wall
 LDFLAGS = $(shell taglib-config --libs)
 OBJS := cmdline.o strip_podcast.o
 PROGRAM_NAME = strip_podcast
@@ -16,7 +16,7 @@ $(PROGRAM_NAME): $(OBJS)
 
 %.o: %.cpp
 	$(CXX) -c $(CXXFLAGS) $*.cpp -o $*.o
-	$(CXX) -MM $(CXXFLAGS) $*.cpp > $*.d
+	@$(CXX) -MM $(CXXFLAGS) $*.cpp > $*.d
 	@mv -f $*.d $*.d.tmp
 	@sed -e 's|.*:|$*.o:|' < $*.d.tmp > $*.d
 	@sed -e 's/.*://' -e 's/\\$$//' < $*.d.tmp | fmt -1 | \
@@ -27,11 +27,6 @@ $(PROGRAM_NAME): $(OBJS)
 	gengetopt --input=$< --c-extension=cpp
 
 clean:
-	rm -rf *.o *.d
-	rm -rf $(PROGRAM_NAME)
-
-full-clean: clean
-	rm -f cmdline.h
-	rm -f cmdline.cpp
+	rm -rf *.o *.d cmdline.h cmdline.cpp $(PROGRAM_NAME)
 
 .SECONDARY:
