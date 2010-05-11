@@ -117,7 +117,6 @@ int main(int argc, char **argv)
 	if(args_info.inputs_num == 0 && verbose)
 		cerr << "Nothing to do." << endl;
 	
-	cout << "args_info.inputs_num = " << args_info.inputs_num << endl;
     for(unsigned int i = 0; i < args_info.inputs_num; i++)
 	{
 		if(verbose)
