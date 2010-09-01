@@ -9,6 +9,8 @@ LDFLAGS = $(shell taglib-config --libs)
 OBJS := cmdline.o strip_podcast.o
 PROGRAM_NAME = strip_podcast
 
+all: $(PROGRAM_NAME)
+
 $(PROGRAM_NAME): $(OBJS)
 	$(CXX) -o $@ $(LDFLAGS) $^
 
