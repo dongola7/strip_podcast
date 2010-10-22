@@ -1,7 +1,13 @@
+autom4te.cache
+Makefile.in
+aclocal.m4
+config.h.in
+configure
+depcomp
+install-sh
+missing
 .DS_Store
-strip_podcast
-cmdline.h
-cmdline.cpp
 *.o
 *.d
 *.swp
+*.gz
