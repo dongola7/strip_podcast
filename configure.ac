@@ -14,7 +14,7 @@ AC_PROG_CPP
 AC_CHECK_PROG([gengetopt], [gengetopt], [gengetopt])
 
 # Checks for libraries.
-AX_LIB_TAGLIB([1.6],,AC_MSG_ERROR([taglib 1.6 is required]))
+AX_LIB_TAGLIB([1.6],,AC_MSG_ERROR([taglib 1.6 or greater is required]))
 
 # Checks for header files.
 
