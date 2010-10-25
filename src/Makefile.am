@@ -1,3 +1,4 @@
+AM_CPPFLAGS = -Wall -Werror
 BUILT_SOURCES = cmdline.cpp cmdline.h
 EXTRA_DIST = cmdline.ggo
 
