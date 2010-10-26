@@ -9,4 +9,4 @@ strip_podcast_LDFLAGS = $(TAGLIB_LIBS)
 strip_podcast_SOURCES = strip_podcast.cpp cmdline.cpp cmdline.h
 
 %.cpp %.h: %.ggo
-	$(gengetopt) --input=$< --c-extension=cpp
+	$(GENGETOPT) --input=$< --c-extension=cpp

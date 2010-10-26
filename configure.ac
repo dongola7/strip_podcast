@@ -11,7 +11,16 @@ AC_CONFIG_HEADERS([config.h])
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CPP
-AC_CHECK_PROG([gengetopt], [gengetopt], [gengetopt])
+AC_CHECK_PROG([GENGETOPT], [gengetopt], [gengetopt])
+
+if test "x${GENGETOPT}" = x; then
+    AC_MSG_ERROR([
+  -----------------------------------------------
+  The gengetopt program is required to build 
+  strip_podcast.  Stopping...
+  Check 'config.log' for more information.
+  -----------------------------------------------])
+fi
 
 # Checks for libraries.
 AX_LIB_TAGLIB([1.6],,AC_MSG_ERROR([taglib 1.6 or greater is required]))
